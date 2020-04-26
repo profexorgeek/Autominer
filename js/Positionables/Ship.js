@@ -2,13 +2,15 @@ class Ship extends Sprite {
 
     #stats = {
         acceleration: 100,
-        drag: 2
+        drag: 2,
+        shotsPerSecond: 1
     };
 
     throttle = 0;
     mineTarget = null;
     navAccuracy = 16;
     clampSpeed = 1;
+    reloadTimeRemaining = 0;
 
     get stats() {
         return this.#stats;
@@ -34,6 +36,15 @@ class Ship extends Sprite {
     update() {
         super.update();
         this.doNavigation();
+
+        this.reloadTimeRemaining -= CustomGame.Game.time.frameSeconds;
+    }
+
+    fireWhenReady() {
+        if(this.reloadTimeRemaining <= 0) {
+            CustomGame.Space.requestBullet(this.position, this);
+            this.reloadTimeRemaining = 1 / this.#stats.shotsPerSecond;
+        }
     }
 
     doNavigation() {
@@ -43,17 +54,18 @@ class Ship extends Sprite {
             this.velocity.y = 0;
         }
 
-        // TODO: also check destroyed
-        if(this.mineTarget == null || this.distanceToTarget() < this.navAccuracy) {
-            this.mineTarget = CustomGame.Space.getRandomRock(this);
+        if(this.mineTarget == null || this.mineTarget.destroyed == true) {
+            this.mineTarget = CustomGame.Space.getNearestRock(this);
         }
         
         this.rotation = MathUtil.angleTo(this.position, this.mineTarget.position);
-        let targetDist = this.distanceToTarget();
+        let range = Bullet.Range / 2;
+        let targetDist = this.distanceToTarget() - range;
         let stopDist = this.distanceToStop();
 
-        if(targetDist < this.navAccuracy || stopDist >= targetDist) {
+        if(targetDist < this.navAccuracy || stopDist > targetDist) {
             this.throttle = 0;
+            this.fireWhenReady();
         }
         else {
             this.throttle = 1;
