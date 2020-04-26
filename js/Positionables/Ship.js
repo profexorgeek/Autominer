@@ -3,7 +3,9 @@ class Ship extends Sprite {
     #stats = {
         acceleration: 100,
         drag: 2,
-        shotsPerSecond: 1
+        shotsPerSecond: 1,
+        crystalAttractRange: 300,
+        maxCargo: 50
     };
 
     throttle = 0;
@@ -11,6 +13,8 @@ class Ship extends Sprite {
     navAccuracy = 16;
     clampSpeed = 1;
     reloadTimeRemaining = 0;
+    crystalAttractor;
+    cargo = 0;
 
     get stats() {
         return this.#stats;
@@ -20,6 +24,7 @@ class Ship extends Sprite {
         // TODO: check sanity of newStats
         this.#stats = newStats;
         this.drag = this.#stats.drag;
+        this.crystalAttractor.radius = this.#stats.crystalAttractRange;
     }
 
     get currentSpeed() {
@@ -31,6 +36,11 @@ class Ship extends Sprite {
 
         this.frame = new Frame(0, 16, 16, 16);
         this.drag = this.#stats.drag;
+        this.collision.radius = 7;
+
+        this.crystalAttractor = new Circle();
+        this.crystalAttractor.radius = this.#stats.crystalAttractRange;
+        this.addChild(this.crystalAttractor);
     }
 
     update() {
@@ -99,5 +109,10 @@ class Ship extends Sprite {
             }
         }
         return dist;
+    }
+
+    addCargo(amount) {
+        this.cargo += amount;
+        this.cargo = MathUtil.clamp(this.cargo, 0, this.#stats.maxCargo);
     }
 }

@@ -2,6 +2,7 @@ class Rock extends Sprite {
 
     #size = "large";
     health = 100;
+    crystalsToDrop = 5;
 
     get size() {
         return this.#size;
@@ -34,10 +35,9 @@ class Rock extends Sprite {
 
     constructor() {
         super('content/spritesheet.png');
-
         this.size = "large";
         this.velocity.rotation = MathUtil.randomInRange(-3, 3);
-        this.drag = 1;
+        this.crystalsToDrop = Math.round(MathUtil.randomInRange(3, 5));
     }
 
     update() {
@@ -52,13 +52,18 @@ class Rock extends Sprite {
     }
 
     destroy() {
-        if(this.size == "medium") {
+        if (this.size == "large") {
+            CustomGame.Space.requestRock(this.position, "medium");
+            CustomGame.Space.requestRock(this.position, "medium");
+        }
+        else if(this.size == "medium") {
             CustomGame.Space.requestRock(this.position, "small");
             CustomGame.Space.requestRock(this.position, "small");
         }
-        else if (this.size == "large") {
-            CustomGame.Space.requestRock(this.position, "medium");
-            CustomGame.Space.requestRock(this.position, "medium");
+        else {
+            for(let i = 0; i < this.crystalsToDrop; i++) {
+                CustomGame.Space.requestCrystal(this.position);
+            }
         }
 
         super.destroy();

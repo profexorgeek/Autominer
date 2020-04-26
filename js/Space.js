@@ -5,7 +5,8 @@ class Space extends View {
     worldSize = 2000;
     rocks = [];
     bullets = [];
-    player;
+    crystals = [];
+    ships = [];
 
 
     constructor() {
@@ -16,10 +17,11 @@ class Space extends View {
         this.createStars();
         this.createRocks();
 
-        this.player = new Ship();
-        this.addChild(this.player);
+        let s = new Ship();
+        this.ships.push(s);
+        this.addChild(s);
 
-        FrostFlake.Game.camera.target = this.player;
+        FrostFlake.Game.camera.target = s;
     }
 
     update() {
@@ -45,6 +47,13 @@ class Space extends View {
                 this.rocks.splice(i, 1);
             }
         }
+
+        for(let i = this.crystals.length - 1; i > -1; i--) {
+            if(this.crystals[i].destroyed) {
+                this.removeChild(this.crystals[i]);
+                this.crystals.splice(i, 1);
+            }
+        }
     }
 
     doCollisions() {
@@ -65,6 +74,22 @@ class Space extends View {
                 let rock2 = this.rocks[j];
                 if(rock != rock2) {
                     rock.collision.collideWith(rock2.collision, RepositionType.Bounce, 0.5, 0.5);
+                }
+            }
+        }
+
+        // test crystals for pickup or attract
+        for(let i = this.crystals.length - 1; i > -1; i--) {
+            let crystal = this.crystals[i];
+            for(let j = this.ships.length - 1; j > -1; j--) {
+                let ship = this.ships[j];
+
+                if(crystal.collision.collideWith(ship.collision)) {
+                    ship.addCargo(1);
+                    crystal.destroy();
+                }
+                else if(crystal.collision.collideWith(ship.crystalAttractor)) {
+                    crystal.target = ship;
                 }
             }
         }
@@ -89,13 +114,21 @@ class Space extends View {
         r.size = size;
         r.x = position.x;
         r.y = position.y;
-
-        // randomize velocity
-        r.velocity.x = MathUtil.randomInRange(-5, 5);
-        r.velocity.y = MathUtil.randomInRange(-5, 5);
-
+        r.velocity.x = MathUtil.randomInRange(-8, 8);
+        r.velocity.y = MathUtil.randomInRange(-8, 8);
         this.rocks.push(r);
         this.addChild(r);
+    }
+
+    requestCrystal(position) {
+        let c = new Crystal();
+        c.x = position.x;
+        c.y = position.y;
+        c.velocity.x = MathUtil.randomInRange(-5, 5);
+        c.velocity.y = MathUtil.randomInRange(-5, 5);
+        c.layer = -10;
+        this.crystals.push(c);
+        this.addChild(c);
     }
 
     getNearestRock(positionable) {
