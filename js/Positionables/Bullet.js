@@ -12,8 +12,9 @@ class Bullet extends Sprite {
     constructor() {
         super('content/spritesheet.png');
         this.frame = new Frame(0, 32, 16, 16);
-        this.collision.radius = 12;
+        this.collision.radius = 6;
         this.lifeRemaining = Bullet.Life;
+        this.level = -10;
     }
 
     update() {

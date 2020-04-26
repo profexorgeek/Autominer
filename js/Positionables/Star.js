@@ -12,6 +12,7 @@ class Star extends Sprite {
         this.scale = MathUtil.randomInRange(0.2, 1);
         this.alpha = MathUtil.randomInRange(0.2, 0.7);
         this.parallax = MathUtil.randomInRange(0, 0.5);
+        this.level = -100;
 
         // make collision low visibility for easier debugging
         this.collision.radius = 3;

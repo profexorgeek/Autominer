@@ -7,6 +7,7 @@ class Space extends View {
     bullets = [];
     crystals = [];
     ships = [];
+    station;
 
 
     constructor() {
@@ -17,11 +18,18 @@ class Space extends View {
         this.createStars();
         this.createRocks();
 
-        let s = new Ship();
-        this.ships.push(s);
-        this.addChild(s);
+        this.station = new Station();
+        this.addChild(this.station);
 
-        FrostFlake.Game.camera.target = s;
+        for(let i = 0; i < 20; i++) {
+            let s = new Ship();
+            s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+            s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+            this.ships.push(s);
+            this.addChild(s);
+        }
+
+        FrostFlake.Game.camera.target = this.ships[0];
     }
 
     update() {
@@ -84,16 +92,39 @@ class Space extends View {
             for(let j = this.ships.length - 1; j > -1; j--) {
                 let ship = this.ships[j];
 
-                if(crystal.collision.collideWith(ship.collision)) {
-                    ship.addCargo(1);
-                    crystal.destroy();
+                if(ship.cargoPercent == 1 || ship.state != ShipState.Mining) {
+                    continue;
                 }
-                else if(crystal.collision.collideWith(ship.crystalAttractor)) {
-                    crystal.target = ship;
+
+                if(crystal.collectible) {
+                    if(crystal.collision.collideWith(ship.collision)) {
+                        ship.addCargo(1);
+                        crystal.destroy();
+                    }
+                    else if(crystal.collision.collideWith(ship.crystalAttractor)) {
+                        crystal.target = ship;
+                    }
                 }
+                else {
+                    if(crystal.collision.collideWith(this.station.crystalCollector)) {
+                        // TODO: add cash to player
+                        crystal.destroy();
+                    }
+                    else {
+                        crystal.target = this.station;
+                    }
+                }
+                
             }
         }
         
+        // test ship for station proximity
+        for(let i = this.ships.length - 1; i > -1; i--) {
+            let ship = this.ships[i];
+            if(ship.state == ShipState.Unloading && ship.collision.collideWith(this.station.collision)) {
+                ship.unloadCargo();
+            }
+        }
     }
 
     requestBullet(position, owner) {
@@ -114,19 +145,29 @@ class Space extends View {
         r.size = size;
         r.x = position.x;
         r.y = position.y;
-        r.velocity.x = MathUtil.randomInRange(-8, 8);
-        r.velocity.y = MathUtil.randomInRange(-8, 8);
+        r.velocity.x = MathUtil.randomInRange(-20, 20);
+        r.velocity.y = MathUtil.randomInRange(-20, 20);
+
+        // force separation for collision
+        r.x += r.velocity.x;
+        r.y += r.velocity.y;
+
         this.rocks.push(r);
         this.addChild(r);
     }
 
-    requestCrystal(position) {
+    requestCrystal(position, collectible = true) {
         let c = new Crystal();
         c.x = position.x;
         c.y = position.y;
         c.velocity.x = MathUtil.randomInRange(-5, 5);
         c.velocity.y = MathUtil.randomInRange(-5, 5);
-        c.layer = -10;
+
+        // force separation
+        c.x += c.velocity.x;
+        c.y += c.velocity.y;
+
+        c.collectible = collectible
         this.crystals.push(c);
         this.addChild(c);
     }
