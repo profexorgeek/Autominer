@@ -10,4 +10,8 @@ class CustomGame extends FrostFlake {
 
         CustomGame.Space = this.view;
     }
+
+    update() {
+        super.update();
+    }
 }

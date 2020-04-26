@@ -2,7 +2,7 @@ class Space extends View {
 
     numStars = 100;
     numRocks = 100;
-    worldSize = 10000;
+    worldSize = 2000;
     rocks = [];
     player;
     
@@ -23,6 +23,27 @@ class Space extends View {
 
     update() {
         super.update();
+    }
+
+    getNearestRock(positionable) {
+        let lastDisk = Number.MAX_SAFE_INTEGER;
+        let rock = null;
+
+        for(let i = 0; i < this.rocks.length; i++) {
+            let delta = MathUtil.vectorSubtract(this.rocks[i].position, positionable.position);
+            let newDist = MathUtil.vectorLength(delta);
+            if(newDist < lastDisk) {
+                rock = this.rocks[i];
+                lastDisk = newDist;
+            }
+        }
+
+        return rock;
+    }
+
+    getRandomRock() {
+        var i = Math.round(MathUtil.randomInRange(0, this.rocks.length - 1));
+        return this.rocks[i];
     }
 
     createStars() {
