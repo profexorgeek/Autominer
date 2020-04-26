@@ -50,4 +50,17 @@ class Rock extends Sprite {
     takeDamage(amount) {
         this.health -= amount;
     }
+
+    destroy() {
+        if(this.size == "medium") {
+            CustomGame.Space.requestRock(this.position, "small");
+            CustomGame.Space.requestRock(this.position, "small");
+        }
+        else if (this.size == "large") {
+            CustomGame.Space.requestRock(this.position, "medium");
+            CustomGame.Space.requestRock(this.position, "medium");
+        }
+
+        super.destroy();
+    }
 }

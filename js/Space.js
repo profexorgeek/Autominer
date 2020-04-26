@@ -84,6 +84,20 @@ class Space extends View {
         this.addChild(b);
     }
 
+    requestRock(position, size) {
+        let r = new Rock();
+        r.size = size;
+        r.x = position.x;
+        r.y = position.y;
+
+        // randomize velocity
+        r.velocity.x = MathUtil.randomInRange(-5, 5);
+        r.velocity.y = MathUtil.randomInRange(-5, 5);
+
+        this.rocks.push(r);
+        this.addChild(r);
+    }
+
     getNearestRock(positionable) {
         let lastDisk = Number.MAX_SAFE_INTEGER;
         let rock = null;
