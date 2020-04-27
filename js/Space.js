@@ -1,15 +1,14 @@
 class Space extends View {
 
-
     numStars = 200;
-    numRocks = 100;
-    worldSize = 2000;
+    numRocks = 150;
+    worldSize = 2500;
+    shipFocusIndex = 0;
     rocks = [];
     bullets = [];
     crystals = [];
     ships = [];
     station;
-
 
     constructor() {
         super();
@@ -73,7 +72,7 @@ class Space extends View {
             // test rocks vs bullets
             for (let j = this.bullets.length - 1; j > -1; j--) {
                 let bullet = this.bullets[j];
-                if(bullet.collision.collideWith(rock.collision, RepositionType.Bounce, 1, 0, 0.05)) {
+                if(bullet.collision.collideWith(rock.collision, RepositionType.Bounce, 1, 0, 0.01)) {
                     rock.takeDamage(Bullet.Damage);
                     bullet.destroy();
                 }
@@ -235,8 +234,8 @@ class Space extends View {
 
     addPlayerShip() {
         let s = new Ship();
-        s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
-        s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+        s.x = this.station.x;
+        s.y += this.station.y;
         this.ships.push(s);
         this.addChild(s);
     }
@@ -244,5 +243,30 @@ class Space extends View {
     awardPlayerCash(amount) {
         CustomGame.Player.cash += amount;
         CustomGame.Game.saveGame();
+    }
+
+    focusOnShip() {
+        if(this.shipFocusIndex > this.ships.length - 1) {
+            this.shipFocusIndex = 0;
+        }
+        else if(this.shipFocusIndex < 0) {
+            this.shipFocusIndex = this.ships.length - 1;
+        }
+
+        CustomGame.Game.camera.target = this.ships[this.shipFocusIndex];
+    }
+
+    focusOnStation() {
+        CustomGame.Game.camera.target = CustomGame.Space.station;
+    }
+
+    focusNextShip() {
+        this.shipFocusIndex++;
+        this.focusOnShip();
+    }
+
+    focusPrevShip() {
+        this.shipFocusIndex--;
+        this.focusOnShip();
     }
 }

@@ -2,8 +2,8 @@ class Rock extends Sprite {
 
     #size = "large";
     health = 100;
-    crystalsToDrop = 5;
-    crystalChance = 0.33;
+    crystalChance = 0.2;
+    superDropAmount = 10;
 
     get size() {
         return this.#size;
@@ -15,20 +15,20 @@ class Rock extends Sprite {
             case "small":
                 this.frame = new Frame(48, 16, 16, 16);
                 this.collision.radius = 4;
-                this.health = 20;
+                this.health = 40;
                 this.drag = 0.5;
                 break;
             case "medium":
                 this.frame = new Frame(48, 0, 16, 16);
                 this.collision.radius = 8;
-                this.health = 50;
+                this.health = 75;
                 this.drag = 1;
                 break;
             default :
                 this.frame = new Frame(16, 0, 32, 32);
                 this.collision.radius = 16;
                 this.#size = "large";
-                this.health = 100;
+                this.health = 150;
                 this.drag = 1.5;
                 break;
         }
@@ -65,6 +65,14 @@ class Rock extends Sprite {
         else if(this.size == "medium") {
             CustomGame.Space.requestRock(this.position, "small");
             CustomGame.Space.requestRock(this.position, "small");
+        }
+        else {
+            // chance to super drop
+            if(Math.random() < this.crystalChance) {
+                for(let i = 0; i < this.crystalsToDrop; i++) {
+                    CustomGame.Space.requestCrystal(this.position);
+                }
+            }
         }
 
         super.destroy();

@@ -1,51 +1,78 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <title>Autominer - A clicky browser game that plays itself</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+        <link href="css/main.css" rel="stylesheet" media="screen" />
+    </head>
     <body>
-        <canvas id='game' width='800px' height='600px'></canvas>
-        <p>Cash: <span id="cash">0</span></p>
+        <div class="container-lg">
+            <div class="row">
+                <div class="col"><h1>Autominer</h1></div>
+                <div class="col text-success text-right"><h2>Cash: <span id="cash">0</span></h2></div>
 
-        <table width='800px' border='1px'>
-            <thead>
-                <tr>
-                    <th>Upgrade</th>
-                    <th>Owned</th>
-                    <th>Description</th>
-                    <th>Cost</th>
-                    <th>Purchase</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Ships</td>
-                    <td><span id="shipCount">0</span></td>
-                    <td>Purchase a new ship from the station.</td>
-                    <td><span id="shipCost"></span></td>
-                    <td><button id='shipPurchase'>Purchase Ship</button></td>
-                </tr>
-                <tr>
-                    <td>Cargo</td>
-                    <td><span id="cargoCount">0</span></td>
-                    <td>Upgrade each ship's cargo space. Applied on next station visit.</td>
-                    <td><span id="cargoCost"></span></td>
-                    <td><button id='cargoPurchase'>Upgrade Cargo</button></td>
-                </tr>
-                <tr>
-                    <td>Speed</td>
-                    <td><span id="accelCount">0</span></td>
-                    <td>Upgrade each ship's speed. Applied on next station visit.</td>
-                    <td><span id="accelCost"></span></td>
-                    <td><button id='accelPurchase'>Upgrade Acceleration</button></td>
-                </tr>
-                <tr>
-                    <td>Rate of Fire</td>
-                    <td><span id="rofCount">0</span></td>
-                    <td>Upgrade each ship's fire rate. Applied on next station visit.</td>
-                    <td><span id="rofCost"></span></td>
-                    <td><button id='rofPurchase'>Upgrade RoF</button></td>
-                </tr>
-            </tbody>
-        </table>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <canvas id="game" width="640px" height="480px"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-left"><button id="cameraPrev" class="btn btn-primary">&lt;&lt; Prev Ship</button></div>
+                <div class="col text-center"><button id="cameraStation" class="btn btn-primary">Focus Station</button></div>
+                <div class="col text-right"><button id="cameraNext" class="btn btn-primary">Next Ship &gt;&gt;</button></div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <table class="table-striped table-sm" width="100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Type</th>
+                                <th>Current</th>
+                                <th>Description</th>
+                                <th>Cost</th>
+                                <th>Purchase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ships</td>
+                                <td><span id="shipCount">0</span></td>
+                                <td>Purchase a new ship from the station.</td>
+                                <td><span id="shipCost"></span></td>
+                                <td class="text-right"><button class="btn" id='shipPurchase'>Purchase Ship</button></td>
+                            </tr>
+                            <tr>
+                                <td>Cargo</td>
+                                <td><span id="cargoCount">0</span></td>
+                                <td>Upgrade the cargo space of every ship. Upgrades will not apply until the ship's next station visit.</td>
+                                <td><span id="cargoCost"></span></td>
+                                <td class="text-right"><button class="btn" id='cargoPurchase'>Upgrade Cargo</button></td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td><span id="accelCount">0</span></td>
+                                <td>Upgrade each ship's speed. Upgrades will not apply until the ship's next station visit.</td>
+                                <td><span id="accelCost"></span></td>
+                                <td class="text-right"><button class="btn" id='accelPurchase'>Upgrade Speed</button></td>
+                            </tr>
+                            <tr>
+                                <td>Rate of Fire</td>
+                                <td><span id="rofCount">0</span></td>
+                                <td>Upgrade each ship's fire rate (shots per second). Upgrades will not apply until the ship's next station visit.</td>
+                                <td><span id="rofCost"></span></td>
+                                <td class="text-right"><button class="btn" id='rofPurchase'>Upgrade RoF</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        
 
         <!-- FrostFlake src: -->
         <script type='text/javascript' src='../frostflake/src/GameTime.js'></script>

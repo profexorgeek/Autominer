@@ -1,7 +1,7 @@
 class Bullet extends Sprite {
 
     static Speed = 300;
-    static Damage = 10;
+    static Damage = 5;
     static Life = 0.5;
     static get Range() {
         return Bullet.Life * Bullet.Speed;

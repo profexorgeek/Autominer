@@ -16,7 +16,7 @@ class CustomGame extends FrostFlake {
         CustomGame.Space = this.view;
         
         this.showDebug = false;
-        FrostFlake.Log.setLevel("warn");
+        FrostFlake.Log.setLevel("info");
 
         this.ui = new UiManager();
     }
@@ -43,6 +43,6 @@ class CustomGame extends FrostFlake {
     }
 
     static GetCost(upgrades, unitCost) {
-        return Math.pow(2, upgrades) * unitCost;
+        return Math.ceil(Math.pow(2, upgrades) * unitCost);
     }
 }

@@ -7,25 +7,26 @@ class Ship extends Sprite {
 
     // #region static base costs
     static ShipUnit = 1;
-    static ShipUnitCost = 50;
+    static ShipUnitCost = 35;
 
-    static CargoBase = 4;
+    static CargoBase = 5;
     static CargoUnit = 1;
-    static CargoUnitCost = 25;
+    static CargoUnitCost = 15;
 
-    static AccelBase = 100;
-    static AccelUnit = 10;
-    static AccelUnitCost = 50;
+    static AccelBase = 120;
+    static AccelUnit = 2;
+    static AccelUnitCost = 5;
 
-    static ROFBase = 1;
-    static ROFUnit = 1;
-    static ROFUnitCost = 200;
+    static ROFBase = 1.5;
+    static ROFUnit = 0.25;
+    static ROFUnitCost = 35;
 
     static CrystalAttractRange = 150;
     static CargoUnloadPerSecond = 5;
     static Drag = 1;
     static NavAccuracy = 16;
     static ClampSpeed = 1;
+    static ShipColors = 5;
     // #endregion
 
     currentAcceleration = Ship.AccelBase;
@@ -52,7 +53,8 @@ class Ship extends Sprite {
     constructor() {
         super('content/spritesheet.png');
 
-        this.frame = new Frame(0, 16, 16, 16);
+        let shipColor = Math.floor(MathUtil.randomInRange(0, Ship.ShipColors));
+        this.frame = new Frame(shipColor * 16, 48, 16, 16);
         this.drag = Ship.Drag;
         this.collision.radius = 7;
 
@@ -61,6 +63,8 @@ class Ship extends Sprite {
         this.crystalAttractor.color = "cyan";
         this.crystalAttractor.visible = false;       
         this.addChild(this.crystalAttractor);
+
+        this.recalculateStats();
     }
 
     update() {
@@ -188,7 +192,7 @@ class Ship extends Sprite {
     }
 
     unloadCargo() {
-        if(this.cargoUnloadTimeRemaining <= 0) {
+        if(this.cargoUnloadTimeRemaining <= 0 && this.cargoPercent > 0) {
             this.addCargo(-1);
             CustomGame.Space.requestCrystal(this.position, false);
             this.cargoUnloadTimeRemaining = 1 / Ship.CargoUnloadPerSecond;
