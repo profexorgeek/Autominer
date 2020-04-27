@@ -21,7 +21,7 @@ class Space extends View {
         this.station = new Station();
         this.addChild(this.station);
 
-        for(let i = 0; i < 20; i++) {
+        for(let i = 0; i < CustomGame.Player.ships; i++) {
             let s = new Ship();
             s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
             s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
@@ -29,7 +29,7 @@ class Space extends View {
             this.addChild(s);
         }
 
-        FrostFlake.Game.camera.target = this.ships[0];
+        CustomGame.Game.camera.target = this.ships[0];
     }
 
     update() {
@@ -107,7 +107,7 @@ class Space extends View {
                 }
                 else {
                     if(crystal.collision.collideWith(this.station.crystalCollector)) {
-                        // TODO: add cash to player
+                        this.awardPlayerCash(Crystal.Value);
                         crystal.destroy();
                     }
                     else {
@@ -219,5 +219,26 @@ class Space extends View {
             this.rocks.push(r);
             this.addChild(r);
         }
+    }
+
+    tryPurchaseShip() {
+        if(CustomGame.Player.cash >= Ship.Cost) {
+            CustomGame.Player.ships += 1;
+            CustomGame.Player.cash -= Ship.Cost;
+            CustomGame.Game.saveGame();
+
+            let s = new Ship();
+            s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+            s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+            this.ships.push(s);
+            this.addChild(s);
+
+            CustomGame.Game.camera.target = this.ships[this.ships.length - 1];
+        }
+    }
+
+    awardPlayerCash(amount) {
+        CustomGame.Player.cash += amount;
+        CustomGame.Game.saveGame();
     }
 }

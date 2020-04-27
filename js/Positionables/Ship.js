@@ -5,6 +5,8 @@ class ShipState {
 
 class Ship extends Sprite {
 
+    static Cost = 100;
+
     #stats = {
         acceleration: 150,
         drag: 0.5,

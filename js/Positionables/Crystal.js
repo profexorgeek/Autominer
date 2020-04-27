@@ -1,5 +1,7 @@
 class Crystal extends Sprite {
 
+    static Value = 1;
+
     target;
     collectible = true;
 

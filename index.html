@@ -2,7 +2,12 @@
 <html>
     <head></head>
     <body>
-        <canvas id="game" width="800" height="600"></canvas>
+        <canvas id='game' width='800' height='600'></canvas>
+        <ul>
+            <li><button id='btnPurchaseShip'>Purchase Ship ($100)</button></li>
+        </ul>
+        <p>Ships Owned: <span id="infoShipCount">0</span></p>
+        <p>Cash: <span id="infoCash">0</span></p>
 
         <!-- FrostFlake src: -->
         <script type='text/javascript' src='../frostflake/src/GameTime.js'></script>
@@ -36,12 +41,12 @@
         <script type='text/javascript' src='js/Positionables/Bullet.js'></script>
         <script type='text/javascript' src='js/Positionables/Crystal.js'></script>
         <script type='text/javascript' src='js/Positionables/Station.js'></script>
+        <script type='text/javascript' src='js/PlayerData.js'></script>
         <script type='text/javascript' src='js/Space.js'></script>
         <script type='text/javascript' src='js/CustomGame.js'></script>
         <script>
-            let canvas = document.getElementById('game');
-            let ff = new CustomGame(canvas, 60);
-            ff.start();
+            let game = new CustomGame();
+            game.start();
         </script>
     </body>
 </html>
