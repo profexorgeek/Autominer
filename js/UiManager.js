@@ -77,7 +77,7 @@ class UiManager {
 
         let shipCost = CustomGame.GetCost(player.ships, Ship.ShipUnitCost);
         let cargoCost = CustomGame.GetCost(player.cargoUpgrades, Ship.CargoUnitCost);
-        let accelCost = CustomGame.GetCost(player.cargoUpgrades, Ship.CargoUnitCost);
+        let accelCost = CustomGame.GetCost(player.accelUpgrades, Ship.AccelUnitCost);
         let rofCost = CustomGame.GetCost(player.rofUpgrades, Ship.ROFUnitCost);
 
         this.cash.innerHTML = `$${player.cash}`;

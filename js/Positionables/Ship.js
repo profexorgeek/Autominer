@@ -14,7 +14,7 @@ class Ship extends Sprite {
     static CargoUnitCost = 15;
 
     static AccelBase = 120;
-    static AccelUnit = 2;
+    static AccelUnit = 5;
     static AccelUnitCost = 5;
 
     static ROFBase = 1.5;
