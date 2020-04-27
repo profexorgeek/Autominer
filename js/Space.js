@@ -1,5 +1,6 @@
 class Space extends View {
 
+
     numStars = 200;
     numRocks = 100;
     worldSize = 2000;
@@ -232,20 +233,12 @@ class Space extends View {
         this.addChild(r);
     }
 
-    tryPurchaseShip() {
-        if(CustomGame.Player.cash >= Ship.Cost) {
-            CustomGame.Player.ships += 1;
-            CustomGame.Player.cash -= Ship.Cost;
-            CustomGame.Game.saveGame();
-
-            let s = new Ship();
-            s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
-            s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
-            this.ships.push(s);
-            this.addChild(s);
-
-            CustomGame.Game.camera.target = this.ships[this.ships.length - 1];
-        }
+    addPlayerShip() {
+        let s = new Ship();
+        s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+        s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
+        this.ships.push(s);
+        this.addChild(s);
     }
 
     awardPlayerCash(amount) {

@@ -22,7 +22,7 @@ class Star extends Sprite {
     update() {
         super.update();
 
-        let cam = FrostFlake.Game.camera;
+        let cam = CustomGame.Game.camera;
 
         // parallax by taking a percentage of the camera's movement
         this.x += this.parallax * (cam.position.x - cam.lastPosition.x);

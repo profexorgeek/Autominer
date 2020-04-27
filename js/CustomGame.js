@@ -4,40 +4,26 @@ class CustomGame extends FrostFlake {
     static SaveName = "AutominerPlayer"
     static Player;
 
-    // UI
-    uiShipCount;
-    uiCash;
+    ui;
 
 
     constructor() {
         let canvas = document.getElementById('game');
         super(canvas, 60);
         this.camera = new CustomCamera(canvas.width, canvas.height);
-        this.bindUi();
         this.tryLoadPlayerData();
         this.view = new Space();
         CustomGame.Space = this.view;
+        
         this.showDebug = false;
+        FrostFlake.Log.setLevel("warn");
+
+        this.ui = new UiManager();
     }
 
     update() {
         super.update();
-
-        this.updateUi();
-    }
-
-    bindUi() {
-        document.getElementById('btnPurchaseShip').addEventListener('click', () => {
-            CustomGame.Space.tryPurchaseShip();
-        });
-
-        this.uiShipCount = document.getElementById('infoShipCount');
-        this.uiCash = document.getElementById('infoCash');
-    }
-
-    updateUi() {
-        this.uiShipCount.innerHTML = CustomGame.Player.ships;
-        this.uiCash.innerHTML =`$${CustomGame.Player.cash}`;
+        this.ui.update();
     }
 
     tryLoadPlayerData() {
@@ -54,5 +40,9 @@ class CustomGame extends FrostFlake {
     saveGame() {
         let plyr = JSON.stringify(CustomGame.Player)
         localStorage.setItem(CustomGame.SaveName, plyr);
+    }
+
+    static GetCost(upgrades, unitCost) {
+        return Math.pow(2, upgrades) * unitCost;
     }
 }

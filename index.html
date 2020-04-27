@@ -2,12 +2,50 @@
 <html>
     <head></head>
     <body>
-        <canvas id='game' width='800' height='600'></canvas>
-        <ul>
-            <li><button id='btnPurchaseShip'>Purchase Ship ($100)</button></li>
-        </ul>
-        <p>Ships Owned: <span id="infoShipCount">0</span></p>
-        <p>Cash: <span id="infoCash">0</span></p>
+        <canvas id='game' width='800px' height='600px'></canvas>
+        <p>Cash: <span id="cash">0</span></p>
+
+        <table width='800px' border='1px'>
+            <thead>
+                <tr>
+                    <th>Upgrade</th>
+                    <th>Owned</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                    <th>Purchase</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ships</td>
+                    <td><span id="shipCount">0</span></td>
+                    <td>Purchase a new ship from the station.</td>
+                    <td><span id="shipCost"></span></td>
+                    <td><button id='shipPurchase'>Purchase Ship</button></td>
+                </tr>
+                <tr>
+                    <td>Cargo</td>
+                    <td><span id="cargoCount">0</span></td>
+                    <td>Upgrade each ship's cargo space. Applied on next station visit.</td>
+                    <td><span id="cargoCost"></span></td>
+                    <td><button id='cargoPurchase'>Upgrade Cargo</button></td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td><span id="accelCount">0</span></td>
+                    <td>Upgrade each ship's speed. Applied on next station visit.</td>
+                    <td><span id="accelCost"></span></td>
+                    <td><button id='accelPurchase'>Upgrade Acceleration</button></td>
+                </tr>
+                <tr>
+                    <td>Rate of Fire</td>
+                    <td><span id="rofCount">0</span></td>
+                    <td>Upgrade each ship's fire rate. Applied on next station visit.</td>
+                    <td><span id="rofCost"></span></td>
+                    <td><button id='rofPurchase'>Upgrade RoF</button></td>
+                </tr>
+            </tbody>
+        </table>
 
         <!-- FrostFlake src: -->
         <script type='text/javascript' src='../frostflake/src/GameTime.js'></script>
@@ -41,6 +79,7 @@
         <script type='text/javascript' src='js/Positionables/Bullet.js'></script>
         <script type='text/javascript' src='js/Positionables/Crystal.js'></script>
         <script type='text/javascript' src='js/Positionables/Station.js'></script>
+        <script type='text/javascript' src='js/UiManager.js'></script>
         <script type='text/javascript' src='js/PlayerData.js'></script>
         <script type='text/javascript' src='js/Space.js'></script>
         <script type='text/javascript' src='js/CustomGame.js'></script>
