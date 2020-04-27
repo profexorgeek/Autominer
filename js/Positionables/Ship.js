@@ -155,10 +155,10 @@ class Ship extends Sprite {
     }
 
     distanceToStop() {
-        let maxIterations = 1000;
+        let maxIterations = 5000;
         let i = 0;
         let dist = 0;
-        let calcResolution = 1;
+        let calcResolution = 0.5;
         let speed = this.currentSpeed;
         while(speed > 0 && i <= maxIterations) {
             dist += speed;

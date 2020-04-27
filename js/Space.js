@@ -1,6 +1,6 @@
 class Space extends View {
 
-    numStars = 100;
+    numStars = 200;
     numRocks = 100;
     worldSize = 2000;
     rocks = [];
@@ -16,7 +16,7 @@ class Space extends View {
         let cam = FrostFlake.Game.camera;
 
         this.createStars();
-        this.createRocks();
+        this.createStartingRocks();
 
         this.station = new Station();
         this.addChild(this.station);
@@ -39,6 +39,7 @@ class Space extends View {
         super.update();
 
         this.doCollisions();
+        this.doMinRockCheck();
     }
 
     doDestroyedChecks() {
@@ -127,6 +128,12 @@ class Space extends View {
         }
     }
 
+    doMinRockCheck() {
+        if(this.rocks.length < this.numRocks) {
+            this.createRock();
+        }
+    }
+
     requestBullet(position, owner) {
         let b = new Bullet();
 
@@ -201,24 +208,28 @@ class Space extends View {
         }
     }
 
-    createRocks() {
+    createStartingRocks() {
         for (let i = 0; i < this.numRocks; i++) {
-            let r = new Rock();
-
-            r.position.x = MathUtil.randomInRange(this.worldSize / -2, this.worldSize / 2);
-            r.position.y = MathUtil.randomInRange(this.worldSize / -2, this.worldSize / 2);
-
-            let rand = Math.random();
-            if (rand > 0.66) {
-                r.size = "medium";
-            }
-            else if (rand > 0.33) {
-                r.size = "small";
-            }
-
-            this.rocks.push(r);
-            this.addChild(r);
+            this.createRock();
         }
+    }
+
+    createRock() {
+        let r = new Rock();
+
+        r.position.x = MathUtil.randomInRange(this.worldSize / -2, this.worldSize / 2);
+        r.position.y = MathUtil.randomInRange(this.worldSize / -2, this.worldSize / 2);
+
+        let rand = Math.random();
+        if (rand > 0.66) {
+            r.size = "medium";
+        }
+        else if (rand > 0.33) {
+            r.size = "small";
+        }
+
+        this.rocks.push(r);
+        this.addChild(r);
     }
 
     tryPurchaseShip() {
