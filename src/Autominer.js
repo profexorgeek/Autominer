@@ -1,4 +1,10 @@
-class CustomGame extends FrostFlake {
+import FrostFlake from '../../frostflake/FrostFlake.js';
+import Space from './Views/Space.js';
+import UiManager from './UiManager.js';
+import PlayerData from './PlayerData.js';
+import CustomCamera from './Positionables/CustomCamera.js';
+
+export default class Autominer extends FrostFlake {
 
     static Space;
     static SaveName = "AutominerPlayer"
@@ -6,17 +12,16 @@ class CustomGame extends FrostFlake {
 
     ui;
 
-
     constructor() {
         let canvas = document.getElementById('game');
         super(canvas, 60);
         this.camera = new CustomCamera(canvas.width, canvas.height);
         this.tryLoadPlayerData();
         this.view = new Space();
-        CustomGame.Space = this.view;
+        Autominer.Space = this.view;
         
         this.showDebug = false;
-        FrostFlake.Log.setLevel("info");
+        Autominer.Log.setLevel("info");
 
         this.ui = new UiManager();
     }
@@ -27,19 +32,19 @@ class CustomGame extends FrostFlake {
     }
 
     tryLoadPlayerData() {
-        let saveData = JSON.parse(localStorage.getItem(CustomGame.SaveName));
+        let saveData = JSON.parse(localStorage.getItem(Autominer.SaveName));
         if(saveData == null) {
-            CustomGame.Player = new PlayerData();
+            Autominer.Player = new PlayerData();
             this.saveGame();
         }
         else {
-            CustomGame.Player = PlayerData.FromGeneric(saveData);
+            Autominer.Player = PlayerData.FromGeneric(saveData);
         }
     }
 
     saveGame() {
-        let plyr = JSON.stringify(CustomGame.Player)
-        localStorage.setItem(CustomGame.SaveName, plyr);
+        let plyr = JSON.stringify(Autominer.Player)
+        localStorage.setItem(Autominer.SaveName, plyr);
     }
 
     static GetCost(upgrades, unitCost) {

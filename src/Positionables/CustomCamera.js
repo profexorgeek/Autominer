@@ -1,4 +1,7 @@
-class CustomCamera extends Camera {
+import Camera from '../../../frostflake/Positionables/Camera.js';
+import Positionable from '../../../frostflake/Positionables/Positionable.js';
+
+export default class CustomCamera extends Camera {
 
     target;
 

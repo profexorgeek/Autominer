@@ -1,4 +1,8 @@
-class Bullet extends Sprite {
+import Sprite from '../../../frostflake/Positionables/Sprite.js';
+import Frame from '../../../frostflake/Drawing/Frame.js';
+import Autominer from '../Autominer.js';
+
+export default class Bullet extends Sprite {
 
     static Speed = 300;
     static Damage = 5;
@@ -23,7 +27,7 @@ class Bullet extends Sprite {
         this.velocity.x = Math.cos(this.rotation) * Bullet.Speed;
         this.velocity.y = Math.sin(this.rotation) * Bullet.Speed;
 
-        this.lifeRemaining -= CustomGame.Game.time.frameSeconds;
+        this.lifeRemaining -= Autominer.Game.time.frameSeconds;
         if(this.lifeRemaining <= 0) {
             this.destroy();
         }

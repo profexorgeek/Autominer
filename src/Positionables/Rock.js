@@ -1,4 +1,9 @@
-class Rock extends Sprite {
+import Sprite from '../../../frostflake/Positionables/Sprite.js';
+import Frame from '../../../frostflake/Drawing/Frame.js';
+import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Autominer from '../Autominer.js';
+
+export default class Rock extends Sprite {
 
     #size = "large";
     health = 100;
@@ -53,24 +58,24 @@ class Rock extends Sprite {
         this.health -= amount;
 
         if(Math.random() < this.crystalChance) {
-            CustomGame.Space.requestCrystal(this.position);
+            Autominer.Space.requestCrystal(this.position);
         }
     }
 
     destroy() {
         if (this.size == "large") {
-            CustomGame.Space.requestRock(this.position, "medium");
-            CustomGame.Space.requestRock(this.position, "medium");
+            Autominer.Space.requestRock(this.position, "medium");
+            Autominer.Space.requestRock(this.position, "medium");
         }
         else if(this.size == "medium") {
-            CustomGame.Space.requestRock(this.position, "small");
-            CustomGame.Space.requestRock(this.position, "small");
+            Autominer.Space.requestRock(this.position, "small");
+            Autominer.Space.requestRock(this.position, "small");
         }
         else {
             // chance to super drop
             if(Math.random() < this.crystalChance) {
                 for(let i = 0; i < this.crystalsToDrop; i++) {
-                    CustomGame.Space.requestCrystal(this.position);
+                    Autominer.Space.requestCrystal(this.position);
                 }
             }
         }

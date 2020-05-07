@@ -1,6 +1,20 @@
-class Space extends View {
 
-    numStars = 200;
+import Bullet from '../Positionables/Bullet.js';
+import Crystal from '../Positionables/Crystal.js';
+import Rock from '../Positionables/Rock.js';
+import Ship from '../Positionables/Ship.js';
+import Star from '../Positionables/Star.js';
+import Station from '../Positionables/Station.js';
+import View from '../../../frostflake/Views/View.js'
+import Autominer from '../Autominer.js';
+import Data from '../../../frostflake/Data/Data.js';
+import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import ShipState from '../Positionables/ShipState.js';
+import RepositionType from '../../../frostflake/Positionables/RepositionType.js';
+
+export default class Space extends View {
+
+    numStars = 150;
     numRocks = 150;
     worldSize = 2500;
     shipFocusIndex = 0;
@@ -10,10 +24,12 @@ class Space extends View {
     ships = [];
     station;
 
-    constructor() {
-        super();
+    async initialize() {
+        await super.initialize();
 
-        let cam = FrostFlake.Game.camera;
+        await Data.loadImage('content/spritesheet.png');
+
+        let cam = Autominer.Game.camera;
 
         this.createStars();
         this.createStartingRocks();
@@ -21,7 +37,7 @@ class Space extends View {
         this.station = new Station();
         this.addChild(this.station);
 
-        for(let i = 0; i < CustomGame.Player.ships; i++) {
+        for(let i = 0; i < Autominer.Player.ships; i++) {
             let s = new Ship();
             s.x += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
             s.y += MathUtil.randomInRange(-this.station.collision.radius, this.station.collision.radius);
@@ -29,7 +45,7 @@ class Space extends View {
             this.addChild(s);
         }
 
-        CustomGame.Game.camera.target = this.ships[0];
+        Autominer.Game.camera.target = this.ships[0];
     }
 
     update() {
@@ -180,15 +196,15 @@ class Space extends View {
     }
 
     getNearestRock(positionable) {
-        let lastDisk = Number.MAX_SAFE_INTEGER;
+        let lastDist = Number.MAX_SAFE_INTEGER;
         let rock = null;
 
         for (let i = 0; i < this.rocks.length; i++) {
             let delta = MathUtil.vectorSubtract(this.rocks[i].position, positionable.position);
             let newDist = MathUtil.vectorLength(delta);
-            if (newDist < lastDisk) {
+            if (newDist < lastDist) {
                 rock = this.rocks[i];
-                lastDisk = newDist;
+                lastDist = newDist;
             }
         }
 
@@ -241,8 +257,8 @@ class Space extends View {
     }
 
     awardPlayerCash(amount) {
-        CustomGame.Player.cash += amount;
-        CustomGame.Game.saveGame();
+        Autominer.Player.cash += amount;
+        Autominer.Game.saveGame();
     }
 
     focusOnShip() {
@@ -253,11 +269,11 @@ class Space extends View {
             this.shipFocusIndex = this.ships.length - 1;
         }
 
-        CustomGame.Game.camera.target = this.ships[this.shipFocusIndex];
+        Autominer.Game.camera.target = this.ships[this.shipFocusIndex];
     }
 
     focusOnStation() {
-        CustomGame.Game.camera.target = CustomGame.Space.station;
+        Autominer.Game.camera.target = Game.Space.station;
     }
 
     focusNextShip() {

@@ -1,4 +1,4 @@
-class PlayerData {
+export default class PlayerData {
     ships = 1;
     cash = 50;
     cargoUpgrades = 0;

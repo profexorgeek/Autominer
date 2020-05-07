@@ -1,4 +1,8 @@
-class Station extends Sprite {
+import Sprite from '../../../frostflake/Positionables/Sprite.js';
+import Frame from '../../../frostflake/Drawing/Frame.js';
+import Circle from '../../../frostflake/Positionables/Circle.js';
+
+export default class Station extends Sprite {
     crystalCollector;
 
     constructor() {

@@ -1,11 +1,16 @@
-class Star extends Sprite {
+import Sprite from '../../../frostflake/Positionables/Sprite.js';
+import Frame from '../../../frostflake/Drawing/Frame.js';
+import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Autominer from '../Autominer.js';
+
+export default class Star extends Sprite {
 
     parallax;
 
     constructor() {
         super('content/spritesheet.png');
 
-        let cam = FrostFlake.Game.camera;
+        let cam = Autominer.Game.camera;
         this.frame = new Frame(0, 0, 16, 16);
         this.position.x = MathUtil.randomInRange(cam.width / -2, cam.width / 2);
         this.position.y = MathUtil.randomInRange(cam.height / -2, cam.height / 2);
@@ -22,7 +27,7 @@ class Star extends Sprite {
     update() {
         super.update();
 
-        let cam = CustomGame.Game.camera;
+        let cam = Autominer.Game.camera;
 
         // parallax by taking a percentage of the camera's movement
         this.x += this.parallax * (cam.position.x - cam.lastPosition.x);

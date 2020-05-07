@@ -1,9 +1,13 @@
-class ShipState {
-    static Mining = 0;
-    static Unloading = 1;
-}
+import Sprite from '../../../frostflake/Positionables/Sprite.js';
+import Frame from '../../../frostflake/Drawing/Frame.js';
+import Circle from '../../../frostflake/Positionables/Circle.js';
+import Autominer from '../Autominer.js';
+import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Bullet from '../Positionables/Bullet.js';
+import Positionable from '../../../frostflake/Positionables/Positionable.js';
+import ShipState from './ShipState.js';
 
-class Ship extends Sprite {
+export default class Ship extends Sprite {
 
     // #region static base costs
     static ShipUnit = 1;
@@ -72,17 +76,17 @@ class Ship extends Sprite {
         this.doAI();
 
         if(this.reloadTimeRemaining > 0) {
-            this.reloadTimeRemaining -= CustomGame.Game.time.frameSeconds;
+            this.reloadTimeRemaining -= Autominer.Game.time.frameSeconds;
         }
 
         if(this.cargoUnloadTimeRemaining > 0) {
-            this.cargoUnloadTimeRemaining -= CustomGame.Game.time.frameSeconds;
+            this.cargoUnloadTimeRemaining -= Autominer.Game.time.frameSeconds;
         }
     }
 
     fireWhenReady() {
         if(this.reloadTimeRemaining <= 0) {
-            CustomGame.Space.requestBullet(this.position, this);
+            Autominer.Space.requestBullet(this.position, this);
             this.reloadTimeRemaining = 1 / this.currentRof;
         }
     }
@@ -124,10 +128,10 @@ class Ship extends Sprite {
     }
 
     doStationNavigation() {
-        let station = CustomGame.Space.station;
+        let station = Autominer.Space.station;
         this.rotation = MathUtil.angleTo(this.position, station);
         let range = station.collision.radius * 0.75;
-        let stationDist = this.distanceToTarget(CustomGame.Space.station);
+        let stationDist = this.distanceToTarget(Autominer.Space.station);
         let targetDist = stationDist - range;
         let stopDist = this.distanceToStop();
 
@@ -141,7 +145,7 @@ class Ship extends Sprite {
 
     doMiningBehavior() {
         if(this.mineTarget == null || this.mineTarget.destroyed == true) {
-            this.mineTarget = CustomGame.Space.getNearestRock(this);
+            this.mineTarget = Autominer.Space.getNearestRock(this);
         }
         
         this.rotation = MathUtil.angleTo(this.position, this.mineTarget.position);
@@ -180,7 +184,7 @@ class Ship extends Sprite {
             i++;
 
             if(i == maxIterations) {
-                CustomGame.Log.debug('Exceeded max iterations when calculating stop distance!');
+                Autominer.Log.debug('Exceeded max iterations when calculating stop distance!');
             }
         }
         return dist;
@@ -194,13 +198,13 @@ class Ship extends Sprite {
     unloadCargo() {
         if(this.cargoUnloadTimeRemaining <= 0 && this.cargoPercent > 0) {
             this.addCargo(-1);
-            CustomGame.Space.requestCrystal(this.position, false);
+            Autominer.Space.requestCrystal(this.position, false);
             this.cargoUnloadTimeRemaining = 1 / Ship.CargoUnloadPerSecond;
         }
     }
 
     recalculateStats() {
-        let player = CustomGame.Player;
+        let player = Autominer.Player;
         this.currentAcceleration = Ship.AccelBase + (player.accelUpgrades * Ship.AccelUnit);
         this.currentRof = Ship.ROFBase + (player.rofUpgrades * Ship.ROFUnit);
         this.currentMaxCargo = Ship.CargoBase + (player.cargoUpgrades * Ship.CargoUnit);
