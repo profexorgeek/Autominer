@@ -1,5 +1,5 @@
-import Sprite from '../../../frostflake/Positionables/Sprite.js';
-import Frame from '../../../frostflake/Drawing/Frame.js';
+import Sprite from 'frostflake/Positionables/Sprite';
+import Frame from 'frostflake/Drawing/Frame';
 import Autominer from '../Autominer.js';
 
 export default class Bullet extends Sprite {

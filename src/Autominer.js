@@ -1,4 +1,4 @@
-import FrostFlake from '../../frostflake/FrostFlake.js';
+import FrostFlake from 'frostflake/FrostFlake';
 import Space from './Views/Space.js';
 import UiManager from './UiManager.js';
 import PlayerData from './PlayerData.js';

@@ -7,10 +7,10 @@ import Star from '../Positionables/Star.js';
 import Station from '../Positionables/Station.js';
 import View from '../../../frostflake/Views/View.js'
 import Autominer from '../Autominer.js';
-import Data from '../../../frostflake/Data/Data.js';
-import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Data from 'frostflake/Data/Data';
+import MathUtil from 'frostflake/Utility/MathUtil';
 import ShipState from '../Positionables/ShipState.js';
-import RepositionType from '../../../frostflake/Positionables/RepositionType.js';
+import RepositionType from 'frostflake/Positionables/RepositionType';
 
 export default class Space extends View {
 

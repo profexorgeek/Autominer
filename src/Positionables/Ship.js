@@ -1,10 +1,10 @@
-import Sprite from '../../../frostflake/Positionables/Sprite.js';
-import Frame from '../../../frostflake/Drawing/Frame.js';
-import Circle from '../../../frostflake/Positionables/Circle.js';
+import Sprite from 'frostflake/Positionables/Sprite';
+import Frame from 'frostflake/Drawing/Frame';
+import Circle from 'frostflake/Positionables/Circle';
 import Autominer from '../Autominer.js';
-import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import MathUtil from 'frostflake/Utility/MathUtil';
 import Bullet from '../Positionables/Bullet.js';
-import Positionable from '../../../frostflake/Positionables/Positionable.js';
+import Positionable from 'frostflake/Positionables/Positionable';
 import ShipState from './ShipState.js';
 
 export default class Ship extends Sprite {

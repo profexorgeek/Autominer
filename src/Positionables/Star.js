@@ -1,6 +1,6 @@
-import Sprite from '../../../frostflake/Positionables/Sprite.js';
-import Frame from '../../../frostflake/Drawing/Frame.js';
-import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Sprite from 'frostflake/Positionables/Sprite';
+import Frame from 'frostflake/Drawing/Frame';
+import MathUtil from 'frostflake/Utility/MathUtil';
 import Autominer from '../Autominer.js';
 
 export default class Star extends Sprite {

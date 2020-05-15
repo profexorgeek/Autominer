@@ -1,7 +1,7 @@
-import Sprite from '../../../frostflake/Positionables/Sprite.js';
-import Frame from '../../../frostflake/Drawing/Frame.js';
-import Positionable from '../../../frostflake/Positionables/Positionable.js';
-import MathUtil from '../../../frostflake/Utility/MathUtil.js';
+import Sprite from 'frostflake/Positionables/Sprite';
+import Frame from 'frostflake/Drawing/Frame';
+import Positionable from 'frostflake/Positionables/Positionable';
+import MathUtil from 'frostflake/Utility/MathUtil';
 
 export default class Crystal extends Sprite {
 
